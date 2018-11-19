@@ -1,0 +1,40 @@
+﻿info:
+  name: ${spring.application.name}
+  component: Demo Application
+
+app:
+#  center: http://10.1.1.249:19080/eureka/
+#  oauth: http://10.1.1.249:19082/account
+  center: http://192.168.0.43:8000/eureka/
+  oauth: http://192.168.0.17:8002/account
+  security:
+    moduleAuthPath: http://account/account
+    ignores: /image/**,/css/**,/js/**,/webjars/**
+    authorities:
+      permitAll: /index2
+      hasUrlAuthority('read'): /auth/users,/auth/orgs
+      hasModuleAuthority('yhgl:add'): /auth/user/create
+      hasAnyAuthority('ROLE_USER'): /resource1/**,/catalog1/**,/index
+      hasAnyAuthority('ROLE_ADMIN_2'): /call
+      authenticated : true
+    resources:
+      hasScope('get_resource_info'): /resource/**
+
+spring:
+  rabbitmq:
+    host: 10.1.1.141
+    port: 5672
+    username: guest1
+    password: guest1
+  redis:
+    port: 6379
+    host: 10.1.1.141
+
+server:
+  port: ${port:10002}
+
+logging:
+  level:
+    org.springframework: WARN
+    cn.gtmap.gtc.plugins: DEBUG
+
